@@ -6,20 +6,17 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 15:49:28 by kemethen          #+#    #+#             */
-/*   Updated: 2019/01/04 14:58:15 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/01/04 19:55:28 by maolivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FILLIT_H
 # define FILLIT_H
 
-# include <string.h>
-# include <unistd.h>
-# include <stdlib.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include "libft.h"
 
-void	ft_putstr(const char *s);
-int		check(char *buff, int fd);
+short	check_file(int fd, char *buff);
 
 #endif

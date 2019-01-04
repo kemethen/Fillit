@@ -3,57 +3,73 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maolivie <maolivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 15:37:18 by kemethen          #+#    #+#             */
-/*   Updated: 2019/01/04 15:14:17 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/01/04 20:01:04 by maolivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-int		links(char *buff, int i)
+static short	check_format(char *buff)
 {
-	int		lnk;
+	short	i;
 
-	lnk = 0;
-	if (buff[i] == '#' && buff[i + 1] == '#')
-		lnk++;
-	if (buff[i] == '#' && buff[i + 5] == '#')
-		lnk++;
-	return (lnk);
+	i = 0;
+	while (i++ < 20)
+	{
+		if (!(i % 5) && buff[i - 1] != '\n')
+			return (0);
+		if (i % 5 && buff[i - 1] != '#' && buff[i - 1] != '.')
+			return (0);
+	}
+	return (1);
 }
 
-int		check(char *buff, int fd)
+static short	check_tetri(char *buff)
 {
-	int		ret;
-	int		i;
-	int		cnt;
-	int		pnt;
-	int		lnk;
+	short	i;
+	short	hashtag;
+	short	link;
 
-	while (((ret = read(fd, buff, 21)) > 0))
+	i = 0;
+	hashtag = 0;
+	link = 0;
+	while (i < 19)
 	{
-		i = 0;
-		cnt = 0;
-		pnt = 0;
-		lnk = 0;
-		while (buff[i] == '#' || buff[i] == '.' || buff[i] == '\n')
+		if (buff[i] == '#')
 		{
-			if (buff[0] == '\n' || (buff[i] == '\n' && buff[i + 1] == '\n'))
-				return (-1);
-			if (buff[i] == '#')
-				cnt++;
-			if (buff[i] == '.')
-				pnt++;
-			lnk = lnk + links(buff, i);
-			i++;
+			hashtag++;
+			if (buff[i + 1] == '#')
+				link++;
+			if (i < 14 && buff[i + 5] == '#')
+				link++;
 		}
-		if (cnt != 4 || pnt != 12 || lnk < 3)
-			return (-1);
-		ft_bzero(buff, 21);
+		i++;
 	}
-	if (i == 0)
-		return (-1);
-	return (0);
+	if (hashtag != 4 || link < 3)
+		return (0);
+	return (1);
+}
+
+short			check_file(int fd, char *buff)
+{
+	short	ret;
+	short	last_ret;
+
+	last_ret = 0;
+	while ((ret = read(fd, buff, 21)) > 0)
+	{
+		last_ret = ret;
+		if (ret < 20)
+			return (0);
+		if (!check_format(buff))
+			return (0);
+		if (!check_tetri(buff))
+			return (0);
+		if (ret == 21 && buff[20] != '\n')
+			return (0);
+	}
+	return (last_ret == 20);
 }
