@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 15:37:18 by kemethen          #+#    #+#             */
-/*   Updated: 2019/01/04 15:02:53 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/01/04 15:14:17 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ int		check(char *buff, int fd)
 			lnk = lnk + links(buff, i);
 			i++;
 		}
-		if (buff[i] != '\0' || cnt != 4 || pnt != 12 || lnk < 3 || i == 0)
+		if (cnt != 4 || pnt != 12 || lnk < 3)
 			return (-1);
-		bzero(buff, 21);
+		ft_bzero(buff, 21);
 	}
 	if (i == 0)
 		return (-1);

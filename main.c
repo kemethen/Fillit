@@ -6,12 +6,11 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 13:45:05 by kemethen          #+#    #+#             */
-/*   Updated: 2019/01/04 14:45:18 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/01/04 15:08:52 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
-#include <stdio.h>
 
 int		main(int ac, char **av)
 {
