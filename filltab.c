@@ -6,42 +6,63 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 18:25:05 by kemethen          #+#    #+#             */
-/*   Updated: 2019/01/08 19:22:08 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/01/10 15:29:02 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-char	**filltab(char *buff)
+char	*get_tetri(char *tab, char *buff, short count, short rank)
 {
-	static int	i = 0;
-	int			j;
-	int			k;
-	char	**tab;
+	short	i;
+	short	j;
 
+	i = 0;
 	j = 0;
-	k = 0;
-	ft_putstr("i = ");
-	ft_putnbr(i);
-	ft_putchar('\n');
-	if (!(tab = (char **)malloc(sizeof(char *) * 6)))
-		return (NULL);
-	ft_putstr("slt je suis apres le malloc\n");
-	if (buff)
+	while (buff[i])
 	{
-		ft_putstr("buff existe\n");
-		if (!(tab[i] = (char *)malloc(sizeof(char) * 17)))
-			return (NULL);
-		ft_putstr("slt je suis apres le deuxieme malloc\n");
-		while (buff[k] != '\0')
-		{
-			if (buff[k] == '\n')
-				k++;
-			tab[i][j++] = buff[k++];
-		}
+		if (j == 6 && count == 1)
+			break ;
+		else if (j == 7 && count == 0)
+			break ;
+		else if (j == 8 && count == 2)
+			break ;
+		if (buff[i] == '#')
+			tab[j++] = buff[i] + 30 + rank;
+		if ((buff[i] == '\n' && buff[i - 1] == '#')
+			|| (buff[i] == '\n' && buff[i - 2] == '#')
+			|| (buff[i] == '\n' && buff[i - 3] == '#'))
+			tab[j++] = buff[i];
+		i++;
 	}
-	tab[5] = NULL;
-	ft_displaytab((const char **)tab);
-	i++;
+	tab[j] = '\0';
 	return (tab);
+}
+
+char	*filltab(char *tab, char *buff, short rank)
+{
+	short	i;
+	short	count;
+
+	i = 0;
+	count = 0;
+	tab = NULL;
+	while (buff[i++])
+	{
+		if (buff[i] == '#' && buff[i + 1] == '#' && buff[i + 2] == '#'
+			&& buff[i + 3] == '#' && tab == NULL)
+		{
+			tab = ft_memalloc(6);
+			count++;
+		}
+		else if (buff[i] == '#' && buff[i + 5] == '#' && buff[i + 10]
+				&& buff[i + 15] == '#' && tab == NULL)
+		{
+			tab = ft_memalloc(9);
+			count = 2;
+		}
+		else if (buff[i] == '#' && tab == NULL)
+			tab = ft_memalloc(8);
+	}
+	return (tab = get_tetri(tab, buff, count, rank));
 }
