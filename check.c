@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 18:25:59 by kemethen          #+#    #+#             */
-/*   Updated: 2019/01/11 15:48:54 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/01/11 18:38:57 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ short			check_file(int fd, char *buff)
 	short	cnt;
 	t_tetri	*tetri;
 
-	last_ret = 0;
 	cnt = 0;
 	if (!(tetri = (t_tetri *)malloc(sizeof(*tetri))))
 		return (0);
@@ -75,8 +74,7 @@ short			check_file(int fd, char *buff)
 		if (!check_tetri(buff))
 			return (0);
 		tetri = lstfill(buff, tetri);
-		cnt++;
-		//ft_lstpush(&tetri, tetri->next);
+		++cnt;
 		if (ret == 21 && buff[20] != '\n')
 			return (0);
 	}
