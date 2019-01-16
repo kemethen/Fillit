@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 18:25:59 by kemethen          #+#    #+#             */
-/*   Updated: 2019/01/11 18:38:57 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/01/16 18:05:26 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,17 @@ static short	check_format(char *buff)
 static short	check_tetri(char *buff)
 {
 	short	i;
-	short	hashtag;
+	short	sharp;
 	short	link;
 
 	i = 0;
-	hashtag = 0;
+	sharp = 0;
 	link = 0;
 	while (i < 19)
 	{
 		if (buff[i] == '#')
 		{
-			++hashtag;
+			++sharp;
 			if (buff[i + 1] == '#')
 				++link;
 			if (i < 14 && buff[i + 5] == '#')
@@ -48,7 +48,7 @@ static short	check_tetri(char *buff)
 		}
 		++i;
 	}
-	if (hashtag != 4 || link < 3)
+	if (sharp != 4 || link < 3)
 		return (0);
 	return (1);
 }
@@ -78,6 +78,7 @@ short			check_file(int fd, char *buff)
 		if (ret == 21 && buff[20] != '\n')
 			return (0);
 	}
-	print_tetri(tetri, cnt);
+	createmap(tetri, cnt);
+//	print_tetri(tetri, cnt);
 	return (last_ret == 20);
 }
