@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 11:30:35 by kemethen          #+#    #+#             */
-/*   Updated: 2019/01/11 15:50:36 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/01/11 18:18:57 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_tetri(t_tetri *tetri, short cnt)
 {
-	while (cnt)
+	while (cnt--)
 	{
 		ft_putstr("A.X : ");
 		ft_putnbr(tetri->a.x);
@@ -40,7 +40,6 @@ void	print_tetri(t_tetri *tetri, short cnt)
 		ft_putstr("D.Y : ");
 		ft_putnbr(tetri->d.y);
 		ft_putstr("\n_______________________________________________________________________________________________________________________\n");
-		cnt--;
 		tetri = tetri->next;
 	}
 }

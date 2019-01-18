@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 18:25:59 by kemethen          #+#    #+#             */
-/*   Updated: 2019/01/16 18:05:26 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/01/18 19:34:15 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,6 @@ short			check_file(int fd, char *buff)
 			return (0);
 	}
 	createmap(tetri, cnt);
-//	print_tetri(tetri, cnt);
+	print_tetri(tetri, cnt);
 	return (last_ret == 20);
 }
