@@ -6,11 +6,22 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 18:25:59 by kemethen          #+#    #+#             */
-/*   Updated: 2019/01/18 19:34:15 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/01/21 18:33:02 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
+
+static t_tetri	*createlist(void)
+{
+	t_tetri *list;
+
+	if (!(list = (t_tetri *)malloc(sizeof(t_tetri))))
+		return (NULL);
+	list->next = NULL;
+	list->prev = NULL;
+	return (list);
+}
 
 static short	check_format(char *buff)
 {
@@ -59,12 +70,13 @@ short			check_file(int fd, char *buff)
 	short	last_ret;
 	short	cnt;
 	t_tetri	*tetri;
+	t_tetri *tmp;
 
 	cnt = 0;
-	if (!(tetri = (t_tetri *)malloc(sizeof(*tetri))))
-		return (0);
+	tetri = createlist();
 	while ((ret = read(fd, buff, 21)) > 0)
 	{
+		tmp = createlist();
 		buff[ret] = '\0';
 		last_ret = ret;
 		if (ret < 20)
@@ -73,12 +85,14 @@ short			check_file(int fd, char *buff)
 			return (0);
 		if (!check_tetri(buff))
 			return (0);
-		tetri = lstfill(buff, tetri);
+		lstfill(buff, tetri);
 		++cnt;
 		if (ret == 21 && buff[20] != '\n')
 			return (0);
+		tetri->next = tmp;
+		tetri->next->prev = tetri;
+		tetri = tetri->next;
 	}
 	createmap(tetri, cnt);
-	print_tetri(tetri, cnt);
 	return (last_ret == 20);
 }

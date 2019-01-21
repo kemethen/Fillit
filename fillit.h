@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 15:49:28 by kemethen          #+#    #+#             */
-/*   Updated: 2019/01/16 11:49:55 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/01/21 14:24:57 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct	s_tetri
 	t_case b;
 	t_case c;
 	t_case d;
+	struct s_tetri *prev;
 	struct s_tetri *next;
 }				t_tetri;
 
@@ -37,8 +38,10 @@ void	ft_putstr(const char *s);
 int		check(char *buff, int fd);
 short	check_file(int fd, char *buff);
 char	*filltab(char *tab, char *buff, short rank);
-t_tetri	*lstfill(char *buff, t_tetri *tetri);
-void	print_tetri(t_tetri *tetri, short cnt);
+t_tetri	*lstnext(t_tetri **tetri, t_tetri *tmp);
+void	lstfill(char *buff, t_tetri *tetri);
+t_tetri	*lstadd(t_tetri **tetri, t_tetri *tmp);
+void	print_tetri(t_tetri *tetri);
 void	createmap(t_tetri *tetri, short count);
 char	*ft_strnew(size_t size);
 char	*ft_strdup(const char *s1);
