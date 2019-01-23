@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 18:26:02 by kemethen          #+#    #+#             */
-/*   Updated: 2019/01/11 18:34:18 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/01/22 14:51:50 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ int		main(int ac, char **av)
 		return (0);
 	}
 	ft_putstr("Everything is good mah boi.\n");
+	close(fd);
 	return (0);
 }
