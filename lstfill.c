@@ -6,11 +6,11 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/23 12:10:46 by kemethen          #+#    #+#             */
-/*   Updated: 2019/01/23 15:14:14 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/01/24 19:32:30 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fillit.h>
+#include "fillit.h"
 #include <stdio.h>
 
 void	tocorner(t_tetri *t)
@@ -31,23 +31,6 @@ void	tocorner(t_tetri *t)
 	}
 }
 
-/*void	ft_lstpush(t_tetri **(*tetri), t_tetri *new)
-{
-	t_tetri	*iter;
-
-	if ((*tetri) == NULL)
-		return ;
-	if (*(*tetri) == NULL)
-	{
-		*(*tetri) = new;
-		return ;
-	}
-	iter = *(*tetri);
-	while (iter->next != NULL)
-		iter = iter->next;
-	iter->next = new;
-}
-*/
 void	put_coord(int i, int sharp, t_tetri *tetri)
 {
 	if (sharp == 0)
@@ -72,20 +55,29 @@ void	put_coord(int i, int sharp, t_tetri *tetri)
 	}
 }
 
-t_tetri *firstlink(char *buff, t_tetri *tetri)
+t_tetri	*createlist(void)
+{
+	t_tetri *list;
+
+	if (!(list = (t_tetri *)malloc(sizeof(t_tetri))))
+		return (NULL);
+	list->next = NULL;
+	list->prev = NULL;
+	return (list);
+}
+
+t_tetri	*firstlink(char *buff, t_tetri *tetri)
 {
 	short	i;
 	short	sharp;
 
 	i = 0;
 	sharp = 0;
-	tetri = (t_tetri *)malloc(sizeof(t_tetri));
-	tetri->next = NULL;
-	tetri->prev = NULL;
+	tetri = createlist();
 	while (i < 19)
 	{
 		if (buff[i] == '#')
-		put_coord(i, sharp++, tetri);
+			put_coord(i, sharp++, tetri);
 		++i;
 	}
 	tocorner(tetri);
@@ -100,21 +92,18 @@ t_tetri	*lstfill(char *buff, t_tetri **tetri)
 	t_tetri *flink;
 	t_tetri	*tmp;
 
-	flink = firstlink(buff, *tetri);		
+	flink = firstlink(buff, *tetri);
 	buff += 21;
 	tmp = flink;
 	while (*buff)
 	{
 		i = 0;
 		sharp = 0;
-		*tetri = (t_tetri *)malloc(sizeof(t_tetri));
-		(*tetri)->next = NULL;
-		(*tetri)->prev = NULL;
-		while (i < 19)
+		*tetri = createlist();
+		while (i++ < 19)
 		{
 			if (buff[i] == '#')
-			put_coord(i, sharp++, *tetri);
-			++i;
+				put_coord(i, sharp++, *tetri);
 		}
 		tocorner(*tetri);
 		flink->next = (*tetri);
