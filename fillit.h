@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 15:49:28 by kemethen          #+#    #+#             */
-/*   Updated: 2019/01/24 19:28:19 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/01/25 14:41:54 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ char			*ft_strdup(const char *s1);
 void			ft_putchar(char c);
 void			ft_putnbr(int n);
 size_t			ft_strlen(const char *str);
+int             ft_lstlen(t_tetri **list);
 void			*ft_memalloc(size_t size);
 void			ft_bzero(void *s, size_t n);
 void			ft_displaytab(char **tab);

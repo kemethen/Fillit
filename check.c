@@ -6,51 +6,61 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 18:25:59 by kemethen          #+#    #+#             */
-/*   Updated: 2019/01/24 19:30:17 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/01/25 12:11:42 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-static short	check_format(char *buff)
+int		check_tetri(char *buf)
 {
-	short	i;
-
-	i = 0;
-	while (i++ < 20)
-	{
-		if (!(i % 5) && buff[i - 1] != '\n')
-			return (0);
-		if (i % 5 && buff[i - 1] != '#' && buff[i - 1] != '.')
-			return (0);
-	}
-	return (1);
-}
-
-static short	check_tetri(char *buff)
-{
-	short	i;
-	short	sharp;
-	short	link;
+	int		i;
+	int		sharp;
+	int		link;
 
 	i = 0;
 	sharp = 0;
 	link = 0;
 	while (i < 19)
 	{
-		if (buff[i] == '#')
+		if (buf[i] == '#')
 		{
 			++sharp;
-			if (buff[i + 1] == '#')
+			if (buf[i + 1] == '#')
 				++link;
-			if (i < 14 && buff[i + 5] == '#')
+			if (i < 14 && buf[i + 5] == '#')
 				++link;
 		}
 		++i;
 	}
 	if (sharp != 4 || link < 3)
-		return (0);
-	return (1);
+		return (-1);
+	return (0);
+}
+
+int		check_format(char *buf, int ret)
+{
+	int	i;
+
+	while (ret > 0)
+	{
+		i = 0;
+		while (++i <= 20)
+		{
+			if (i % 5 == 0 && buf[i - 1] != '\n')
+				return (-1);
+			if (i % 5 && buf[i - 1] != '#' && buf[i - 1] != '.')
+				return (-1);
+		}
+		i--;
+		if (ret > 20 && buf[i] != '\n')
+			return (-1);
+		if (check_tetri(buf) == -1)
+			return (-1);
+		ret -= 21;
+		buf += 21;
+	}
+	return (0);
 }
 
 short			check_file(int fd)
@@ -62,9 +72,11 @@ short			check_file(int fd)
 	tetri = NULL;
 	ret = read(fd, buff, 546);
 	buff[ret] = '\0';
-	if (!check_format(buff) || !check_tetri(buff))
-		return (0);
+	if (ret % 21 != 20)
+		return (-1);
+	if (check_format(buff, ret) == -1)
+		return (-1);
 	tetri = lstfill(buff, &tetri);
 	fillit(tetri);
-	return (ret);
+	return (0);
 }

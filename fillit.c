@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/23 15:31:13 by kemethen          #+#    #+#             */
-/*   Updated: 2019/01/24 19:36:34 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/01/25 18:20:33 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,22 @@ char	**recreatemap(char **map)
 	j = 0;
 	while (j < k)
 	{
-		map[j] = ft_strndup("............................", k);
+		map[j] = ft_strndup("........................", k);
 		j++;
 	}
 	return (map);
+}
+
+void	recoord(t_tetri **t, short cnt)
+{
+	(*t)->a.y++;
+	(*t)->b.y++;
+	(*t)->c.y++;
+	(*t)->d.y++;
+	(*t)->a.x = (*t)->a.x - cnt;
+	(*t)->b.x = (*t)->b.x - cnt;
+	(*t)->c.x = (*t)->c.x - cnt;
+	(*t)->d.x = (*t)->d.x - cnt;
 }
 
 int		msize(t_tetri **t)
@@ -58,21 +70,7 @@ int		msize(t_tetri **t)
 	cnt *= 4;
 	while (racine * racine < cnt)
 		racine++;
-	if (cnt % racine != 0)
-		return (racine + 1);
 	return (racine);
-}
-
-void	recoord(t_tetri *t, short cnt)
-{
-	t->a.y++;
-	t->b.y++;
-	t->c.y++;
-	t->d.y++;
-	t->a.x = t->a.x - cnt;
-	t->b.x = t->b.x - cnt;
-	t->c.x = t->c.x - cnt;
-	t->d.x = t->d.x - cnt;
 }
 
 void	fillit(t_tetri *t)
@@ -84,25 +82,23 @@ void	fillit(t_tetri *t)
 
 	j = 0;
 	sharp = 'A';
+	cnt = msize(&t);
+	map = (char **)malloc(sizeof(char *) * (cnt + 1));
+	map[cnt] = NULL;
+	while (j < cnt)
+		map[j++] = ft_strndup("...........", cnt);
 	cnt = 0;
-	map = (char **)malloc(sizeof(char *) * (msize(&t) + 1));
-	map[msize(&t)] = NULL;
-	while (j < msize(&t))
-		map[j++] = ft_strndup(".................", msize(&t));
-	ft_putstr("La map de base est \n");
-	ft_displaytab(map);
-	ft_putchar('\n');
-	while (t != NULL && sharp != '[')
+	while (t != NULL && sharp <= 'Z')
 	{
-		if (t->a.x >= j || t->b.x >= j || t->c.x >= j || t->d.x >= j)
+		if (t->a.x >= j || t->b.x > j || t->c.x > j || t->d.x > j)
 		{
-			recoord(t, cnt);
+			recoord(&t, cnt);
 			cnt = 0;
 		}
-		if (t->a.y >= j || t->b.y >= j || t->c.y >= j || t->d.y >= j)
+		if (t->a.y > j || t->b.y > j || t->c.y > j || t->d.y > j)
 		{
-			map = recreatemap(map);
 			tocorner(t);
+			map = recreatemap(map);
 			while (t->prev != NULL)
 			{
 				tocorner(t);
