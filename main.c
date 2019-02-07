@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 18:26:02 by kemethen          #+#    #+#             */
-/*   Updated: 2019/01/24 19:05:18 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/02/05 18:38:04 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,10 @@ int		main(int ac, char **av)
 		return (0);
 	}
 	fd = open(av[1], O_RDONLY);
-	if (!check_file(fd))
+	if (check_file(fd) == -1)
 	{
 		ft_putstr("error\n");
 		return (0);
 	}
-
-	ft_putstr("Everything is good mah boi.\n");
 	return (0);
 }

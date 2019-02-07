@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 15:49:28 by kemethen          #+#    #+#             */
-/*   Updated: 2019/01/25 14:41:54 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/02/07 23:28:59 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct	s_tetri
 	t_case			b;
 	t_case			c;
 	t_case			d;
+	char			l;
 	struct s_tetri	*prev;
 	struct s_tetri	*next;
 }				t_tetri;
@@ -49,6 +50,8 @@ char			*ft_strdup(const char *s1);
 void			ft_putchar(char c);
 void			ft_putnbr(int n);
 size_t			ft_strlen(const char *str);
+short			offset_x(t_tetri *t);
+short			offset_y(t_tetri *t);
 int             ft_lstlen(t_tetri **list);
 void			*ft_memalloc(size_t size);
 void			ft_bzero(void *s, size_t n);

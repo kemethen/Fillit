@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/23 12:10:46 by kemethen          #+#    #+#             */
-/*   Updated: 2019/01/24 19:32:30 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/02/07 17:33:48 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,47 +66,47 @@ t_tetri	*createlist(void)
 	return (list);
 }
 
-t_tetri	*firstlink(char *buff, t_tetri *tetri)
+t_tetri	*firstlink(char *buff, t_tetri *t)
 {
 	short	i;
 	short	sharp;
 
 	i = 0;
 	sharp = 0;
-	tetri = createlist();
+	t = createlist();
 	while (i < 19)
 	{
 		if (buff[i] == '#')
-			put_coord(i, sharp++, tetri);
+			put_coord(i, sharp++, t);
 		++i;
 	}
-	tocorner(tetri);
+	tocorner(t);
 	buff += 21;
-	return (tetri);
+	return (t);
 }
 
-t_tetri	*lstfill(char *buff, t_tetri **tetri)
+t_tetri	*lstfill(char *buff, t_tetri **t)
 {
 	short	i;
 	short	sharp;
 	t_tetri *flink;
 	t_tetri	*tmp;
 
-	flink = firstlink(buff, *tetri);
+	flink = firstlink(buff, *t);
 	buff += 21;
 	tmp = flink;
 	while (*buff)
 	{
-		i = 0;
+		i = -1;
 		sharp = 0;
-		*tetri = createlist();
-		while (i++ < 19)
+		*t = createlist();
+		while (++i < 19)
 		{
 			if (buff[i] == '#')
-				put_coord(i, sharp++, *tetri);
+				put_coord(i, sharp++, *t);
 		}
-		tocorner(*tetri);
-		flink->next = (*tetri);
+		tocorner(*t);
+		flink->next = *t;
 		flink->next->prev = flink;
 		buff += 21;
 		flink = flink->next;
