@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/23 15:31:13 by kemethen          #+#    #+#             */
-/*   Updated: 2019/01/25 18:20:33 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/02/07 16:04:17 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,20 @@ char	**recreatemap(char **map)
 	return (map);
 }
 
-void	recoord(t_tetri **t, short cnt)
+void	recoord(t_tetri **t)
 {
-	(*t)->a.y++;
-	(*t)->b.y++;
-	(*t)->c.y++;
-	(*t)->d.y++;
+	++(*t)->a.x;
+	++(*t)->b.x;
+	++(*t)->c.x;
+	++(*t)->d.x;
+}
+
+void	nextline(t_tetri **t, short cnt)
+{
+	++(*t)->a.y;
+	++(*t)->b.y;
+	++(*t)->c.y;
+	++(*t)->d.y;
 	(*t)->a.x = (*t)->a.x - cnt;
 	(*t)->b.x = (*t)->b.x - cnt;
 	(*t)->c.x = (*t)->c.x - cnt;
@@ -60,7 +68,7 @@ int		msize(t_tetri **t)
 	{
 		if ((*t)->next)
 			*t = (*t)->next;
-		cnt++;
+		++cnt;
 	}
 	while ((*t)->prev)
 	{
@@ -69,7 +77,7 @@ int		msize(t_tetri **t)
 	}
 	cnt *= 4;
 	while (racine * racine < cnt)
-		racine++;
+		++racine;
 	return (racine);
 }
 
@@ -88,26 +96,45 @@ void	fillit(t_tetri *t)
 	while (j < cnt)
 		map[j++] = ft_strndup("...........", cnt);
 	cnt = 0;
-	while (t != NULL && sharp <= 'Z')
+	while (t != NULL)
 	{
-		if (t->a.x >= j || t->b.x > j || t->c.x > j || t->d.x > j)
+		if (t->a.y >= j || t->b.y >= j || t->c.y >= j || t->d.y >= j)
 		{
-			recoord(&t, cnt);
-			cnt = 0;
-		}
-		if (t->a.y > j || t->b.y > j || t->c.y > j || t->d.y > j)
-		{
-			tocorner(t);
-			map = recreatemap(map);
-			while (t->prev != NULL)
+			if (sharp == 'A' && (t->a.x > j || t->b.x > j || t->c.x > j || t->d.x > j))
+			{
+				map = recreatemap(map);
+				++j;
+				while (t->prev)
+				{
+					t = t->prev;
+					--sharp;
+				}
+				tocorner(t);
+			}
+			else if (sharp >= 'B' && (t->a.x >= j || t->b.x >= j || t->c.x >= j || t->d.x >= j))
 			{
 				tocorner(t);
 				t = t->prev;
+				map[t->a.y][t->a.x] = '.';
+				map[t->b.y][t->b.x] = '.';
+				map[t->c.y][t->c.x] = '.';
+				map[t->d.y][t->d.x] = '.';
+				recoord(&t);
+				--sharp;
+			}	
+			else
+			{
+				recoord(&t);
+				++cnt;
 			}
-			sharp = 'A';
-			j++;
+			
 		}
-		if (map[t->a.y][t->a.x] == '.' && map[t->b.y][t->b.x] == '.'
+		else if (t->a.x >= j || t->b.x >= j || t->c.x >= j || t->d.x >= j)
+		{
+			nextline(&t, cnt);
+			cnt = 0;
+		}
+		else if (map[t->a.y][t->a.x] == '.' && map[t->b.y][t->b.x] == '.'
 			&& map[t->c.y][t->c.x] == '.' && map[t->d.y][t->d.x] == '.')
 		{
 			map[t->a.y][t->a.x] = sharp;
@@ -115,18 +142,15 @@ void	fillit(t_tetri *t)
 			map[t->c.y][t->c.x] = sharp;
 			map[t->d.y][t->d.x] = sharp;
 			t = t->next;
-			sharp++;
+			++sharp;
+			cnt = 0;
 		}
 		else
 		{
-			t->a.x++;
-			t->b.x++;
-			t->c.x++;
-			t->d.x++;
-			cnt++;
+			recoord(&t);
+			++cnt;
 		}
 	}
-	ft_putstr("La map finale est \n");
 	ft_displaytab(map);
 	free(map);
 	free(t);
