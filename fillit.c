@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/23 15:31:13 by kemethen          #+#    #+#             */
-/*   Updated: 2019/02/07 16:04:17 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/02/07 20:33:25 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ void	fillit(t_tetri *t)
 	char	**map;
 	short	j;
 	short	cnt;
+	short	x = 0;
+	short	y = 0;
 	char	sharp;
 
 	j = 0;
@@ -95,61 +97,101 @@ void	fillit(t_tetri *t)
 	map[cnt] = NULL;
 	while (j < cnt)
 		map[j++] = ft_strndup("...........", cnt);
-	cnt = 0;
 	while (t != NULL)
 	{
-		if (t->a.y >= j || t->b.y >= j || t->c.y >= j || t->d.y >= j)
+		ft_putstr("Sharp = ");
+		ft_putchar(sharp);
+		ft_putchar('\n');
+		ft_putstr("J = ");
+		ft_putnbr(j);
+		ft_putchar('\n');
+		ft_putstr("A.X : ");
+		ft_putnbr(t->a.x + x);
+		ft_putchar('\n');
+		ft_putstr("A.Y : ");
+		ft_putnbr(t->a.y + y);
+		ft_putchar('\n');
+		ft_putstr("B.X : ");
+		ft_putnbr(t->b.x + x);
+		ft_putchar('\n');
+		ft_putstr("B.Y : ");
+		ft_putnbr(t->b.y + y);
+		ft_putchar('\n');
+		ft_putstr("C.X : ");
+		ft_putnbr(t->c.x + x);
+		ft_putchar('\n');
+		ft_putstr("C.Y : ");
+		ft_putnbr(t->c.y + y);
+		ft_putchar('\n');
+		ft_putstr("D.X : ");
+		ft_putnbr(t->d.x + x);
+		ft_putchar('\n');
+		ft_putstr("D.Y : ");
+		ft_putnbr(t->d.y + y);
+		ft_putstr("\n_______________________________________________________________________________________________________________________\n");
+		if (t->a.y + y >= j || t->b.y + y >= j || t->c.y + y >= j || t->d.y + y >= j)
 		{
-			if (sharp == 'A' && (t->a.x > j || t->b.x > j || t->c.x > j || t->d.x > j))
+			ft_putstr("Derniere ligne\n");
+			if (sharp == 'A' && (t->a.x + x >= j || t->b.x + x >= j || t->c.x + x >= j || t->d.x + x >= j))
 			{
+				tocorner(t);
+				ft_putstr("Je refais la map\n");
 				map = recreatemap(map);
 				++j;
-				while (t->prev)
-				{
-					t = t->prev;
-					--sharp;
-				}
-				tocorner(t);
+				x = 0;
+				y = 0;
 			}
-			else if (sharp >= 'B' && (t->a.x >= j || t->b.x >= j || t->c.x >= j || t->d.x >= j))
+			else if (sharp >= 'B' && (t->a.x + x >= j || t->b.x + x >= j || t->c.x + x >= j || t->d.x + x >= j))
 			{
+				ft_putstr("Je reviens sur la piece d'avant\n");
 				tocorner(t);
 				t = t->prev;
+				--sharp;
 				map[t->a.y][t->a.x] = '.';
 				map[t->b.y][t->b.x] = '.';
 				map[t->c.y][t->c.x] = '.';
 				map[t->d.y][t->d.x] = '.';
-				recoord(&t);
-				--sharp;
+				x = 1;
+				y = 0;
 			}	
 			else
 			{
-				recoord(&t);
-				++cnt;
+				ft_putstr("Je me deplace sur la derniere ligne\n");
+				++x;
 			}
-			
 		}
-		else if (t->a.x >= j || t->b.x >= j || t->c.x >= j || t->d.x >= j)
+		else if (t->a.x + x >= j || t->b.x + x >= j || t->c.x + x >= j || t->d.x + x >= j)
 		{
-			nextline(&t, cnt);
-			cnt = 0;
+			ft_putstr("Bout de ligne\n");
+			x = 0;
+			++y;
 		}
-		else if (map[t->a.y][t->a.x] == '.' && map[t->b.y][t->b.x] == '.'
-			&& map[t->c.y][t->c.x] == '.' && map[t->d.y][t->d.x] == '.')
+		else if (map[t->a.y + y][t->a.x + x] == '.' && map[t->b.y + y][t->b.x + x] == '.'
+				&& map[t->c.y + y][t->c.x + x] == '.' && map[t->d.y + y][t->d.x + x] == '.')
 		{
-			map[t->a.y][t->a.x] = sharp;
-			map[t->b.y][t->b.x] = sharp;
-			map[t->c.y][t->c.x] = sharp;
-			map[t->d.y][t->d.x] = sharp;
-			t = t->next;
+			ft_putstr("Je place ma piece\n");
+			map[t->a.y + y][t->a.x + x] = sharp;
+			map[t->b.y + y][t->b.x + x] = sharp;
+			map[t->c.y + y][t->c.x + x] = sharp;
+			map[t->d.y + y][t->d.x + x] = sharp;
 			++sharp;
-			cnt = 0;
+			t->a.x = t->a.x + x;
+			t->a.y = t->a.y + y;
+			t->b.x = t->b.x + x;
+			t->b.y = t->b.y + y;
+			t->c.x = t->c.x + x;
+			t->c.y = t->c.y + y;
+			t->d.x = t->d.x + x;
+			t->d.y = t->d.y + y;
+			x = 0;
+			y = 0;
+			t = t->next;
+			ft_putstr("Pour le moment ma map ressemble a \n");
+			ft_displaytab(map);
+			ft_putchar('\n');
 		}
 		else
-		{
-			recoord(&t);
-			++cnt;
-		}
+			++x;
 	}
 	ft_displaytab(map);
 	free(map);
