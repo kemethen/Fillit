@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 18:25:59 by kemethen          #+#    #+#             */
-/*   Updated: 2019/01/25 12:11:42 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/02/08 15:34:14 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,14 @@ int		check_format(char *buf, int ret)
 	return (0);
 }
 
-short			check_file(int fd)
+short	check_file(int fd)
 {
 	short	ret;
-	char	buff[546];
+	char	*buff;
 	t_tetri	*tetri;
+	t_tetri	*tmp;
 
+	buff = ft_strnew(546);
 	tetri = NULL;
 	ret = read(fd, buff, 546);
 	buff[ret] = '\0';
@@ -78,5 +80,12 @@ short			check_file(int fd)
 		return (-1);
 	tetri = lstfill(buff, &tetri);
 	fillit(tetri);
+	free(buff);
+	while (tetri)
+	{
+		tmp = tetri->next;
+		free(tetri);
+		tetri = tmp;
+	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 23:04:30 by kemethen          #+#    #+#             */
-/*   Updated: 2019/02/07 23:48:07 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/02/08 13:18:09 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ short		offset_x(t_tetri *t)
 	}
 	tmp = tab[0];
 	free(tab);
-	return (tmp); 
+	return (tmp);
 }
 
 short		offset_y(t_tetri *t)
