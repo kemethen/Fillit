@@ -17,28 +17,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-typedef struct s_case
-{
-		short x;
-		short y;
-}				t_case;
-typedef struct	s_tetri
-{
-		t_case a;
-		t_case b;
-		t_case c;
-		t_case d;
-		struct s_tetri *next;
-		struct s_tetri *prev;
-}				t_tetri;
-
-typedef struct	s_list
-{
-	void			*content;
-	size_t			content_size;
-	struct s_list	*next;
-}				t_list;
-
 void			ft_bzero(void *s, size_t n);
 size_t			ft_strlen(const char *str);
 char			*ft_strncpy(char *dest, const char *src, size_t len);
