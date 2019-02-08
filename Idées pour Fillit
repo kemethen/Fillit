@@ -1,5 +1,0 @@
-> Deplacer les tetri le plus en haut a gauche possible pendant le parcing
-> Effectuer une liste chainee qui se lit dans les deux sens, commencer a incrementer jusqu'au dernier maillon et remonter en utilisant une structure prev qui pointe sur le maillon avant
-> Etre capable de rechercher la solution la plus optimale a l'aide d'un calcul d'optimisation aka le carré en haut à gauche est le plus opti, partant de ce principe la case en dessous de lui est moins opti de 1 et la case a droite de lui est moins opti de 1 et ainsi de suite, la pièce ayant le plus petit résultat a la fin est la plus optimale
-> Etre capable d'éliminer les solutions qui sont plus grandes lorsqu'on sait que le carré que l'on cherche est plus petit
-> Peut etre passer par des recursives qui permettent de break pendant la fonction pour le backtracking.
