@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/23 15:31:13 by kemethen          #+#    #+#             */
-/*   Updated: 2019/02/08 15:39:27 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/02/12 19:48:13 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	**recreatemap(char **map)
 {
-	short	j;
-	short	k;
+	int		j;
+	int		k;
 
 	j = 0;
 	while (map[j] != NULL)
@@ -37,133 +37,76 @@ char	**recreatemap(char **map)
 	return (map);
 }
 
-int		msize(t_tetri **t)
-{
-	int		cnt;
-	int		racine;
-
-	racine = 1;
-	cnt = 1;
-	while ((*t)->next)
-	{
-		if ((*t)->next)
-			*t = (*t)->next;
-		++cnt;
-	}
-	while ((*t)->prev)
-	{
-		if ((*t)->prev)
-			*t = (*t)->prev;
-	}
-	cnt *= 4;
-	while (racine * racine < cnt)
-		++racine;
-	return (racine);
-}
-
-void	recoord(t_tetri *t, short x, short y, char sign)
+void	recoord(t_tetri *t, int x, int y, char sign)
 {
 	if (sign == '+')
 	{
-		t->a.x = t->a.x + x;
-		t->a.y = t->a.y + y;
-		t->b.x = t->b.x + x;
-		t->b.y = t->b.y + y;
-		t->c.x = t->c.x + x;
-		t->c.y = t->c.y + y;
-		t->d.x = t->d.x + x;
-		t->d.y = t->d.y + y;
+		t->a.x += x;
+		t->a.y += y;
+		t->b.x += x;
+		t->b.y += y;
+		t->c.x += x;
+		t->c.y += y;
+		t->d.x += x;
+		t->d.y += y;
 	}
 	if (sign == '-')
 	{
-		t->a.x = t->a.x - x;
-		t->a.y = t->a.y - y;
-		t->b.x = t->b.x - x;
-		t->b.y = t->b.y - y;
-		t->c.x = t->c.x - x;
-		t->c.y = t->c.y - y;
-		t->d.x = t->d.x - x;
-		t->d.y = t->d.y - y;
+		t->a.x -= x;
+		t->a.y -= y;
+		t->b.x -= x;
+		t->b.y -= y;
+		t->c.x -= x;
+		t->c.y -= y;
+		t->d.x -= x;
+		t->d.y -= y;
 	}
 }
 
-void	fillit(t_tetri *t)
+char	**fillit(t_tetri *t, t_var *v, char **map)
 {
-	char	**map;
-	short	j;
-	short	x;
-	short	y;
-	char	sharp;
-
-	j = 0;
-	x = 0;
-	y = 0;
-	sharp = 'A';
-	map = (char **)malloc(sizeof(char *) * (msize(&t) + 1));
-	map[msize(&t)] = NULL;
-	while (j < msize(&t))
-		map[j++] = ft_strndup("...........", msize(&t));
+	(*v).ltr = 'A';
 	while (t != NULL)
 	{
-		if (t->a.y + y >= j || t->b.y + y >= j
-			|| t->c.y + y >= j || t->d.y + y >= j)
+		if (lastline(t, v))
 		{
-			if (sharp == 'A' && (t->a.x + x >= j || t->b.x + x >= j
-				|| t->c.x + x >= j || t->d.x + x >= j))
+			if (last_tetri_offmap(v, t))
 			{
 				map = recreatemap(map);
-				++j;
-				x = 0;
-				y = 0;
+				++(*v).j;
+				(*v).x = 0;
+				(*v).y = 0;
 			}
-			else if (sharp >= 'B' && (t->a.x + x >= j || t->b.x + x >= j
-					|| t->c.x + x >= j || t->d.x + x >= j))
+			else if (tetri_offmap(v, t))
 			{
 				tocorner(t);
 				t = t->prev;
-				--sharp;
-				x = offset_x(t);
-				y = offset_y(t);
-				map[t->a.y][t->a.x] = '.';
-				map[t->b.y][t->b.x] = '.';
-				map[t->c.y][t->c.x] = '.';
-				map[t->d.y][t->d.x] = '.';
-				recoord(t, x, y, '-');
-				++x;
+				--(*v).ltr;
+				(*v).x = offset_x(t);
+				(*v).y = offset_y(t);
+				map = setpoint(map, t);
+				recoord(t, (*v).x, (*v).y, '-');
+				++(*v).x;
 			}
 			else
-				++x;
+				++(*v).x;
 		}
-		else if (t->a.x + x >= j || t->b.x + x >= j
-				|| t->c.x + x >= j || t->d.x + x >= j)
+		else if (last_column(v, t))
 		{
-			x = 0;
-			++y;
+			(*v).x = 0;
+			++(*v).y;
 		}
-		else if (map[t->a.y + y][t->a.x + x] == '.'
-				&& map[t->b.y + y][t->b.x + x] == '.'
-				&& map[t->c.y + y][t->c.x + x] == '.'
-				&& map[t->d.y + y][t->d.x + x] == '.')
+		else if (placeable(v, t, map))
 		{
-			map[t->a.y + y][t->a.x + x] = sharp;
-			map[t->b.y + y][t->b.x + x] = sharp;
-			map[t->c.y + y][t->c.x + x] = sharp;
-			map[t->d.y + y][t->d.x + x] = sharp;
-			++sharp;
-			recoord(t, x, y, '+');
-			x = 0;
-			y = 0;
+			map = setletter(map, t, (*v).ltr, *v);
+			++(*v).ltr;
+			recoord(t, (*v).x, (*v).y, '+');
+			(*v).x = 0;
+			(*v).y = 0;
 			t = t->next;
 		}
 		else
-			++x;
+			++(*v).x;
 	}
-	ft_displaytab(map);
-	j = 0;
-	while (map[j] != NULL)
-	{
-		free(map[j]);
-		j++;
-	}
-	free(map);
+	return (map);
 }

@@ -6,7 +6,7 @@
 #    By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/06 16:19:46 by maolivie          #+#    #+#              #
-#    Updated: 2019/02/08 17:35:56 by kemethen         ###   ########.fr        #
+#    Updated: 2019/02/12 17:59:11 by kemethen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,9 @@ SRC		= main.c \
 		  check.c \
 		  lstfill.c \
 		  fillit.c \
-		  offset.c
+		  offset.c \
+		  fillmap.c \
+		  checkmap.c
 
 CFLAGS += -I$(INCDIR)
 OBJ		= $(addprefix $(OBJDIR)/,$(SRC:.c=.o))

@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/23 12:10:46 by kemethen          #+#    #+#             */
-/*   Updated: 2019/02/08 15:28:23 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/02/12 16:15:44 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ t_tetri	*createlist(void)
 
 t_tetri	*firstlink(char *buff, t_tetri *t)
 {
-	short	i;
-	short	sharp;
+	int		i;
+	int		sharp;
 
 	i = 0;
 	sharp = 0;
@@ -86,8 +86,8 @@ t_tetri	*firstlink(char *buff, t_tetri *t)
 
 t_tetri	*lstfill(char *buff, t_tetri **t)
 {
-	short	i;
-	short	sharp;
+	int		i;
+	int		sharp;
 	t_tetri *flink;
 	t_tetri	*tmp;
 

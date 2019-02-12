@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 18:25:59 by kemethen          #+#    #+#             */
-/*   Updated: 2019/02/08 15:34:14 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/02/12 18:23:29 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,37 @@ int		check_format(char *buf, int ret)
 	return (0);
 }
 
-short	check_file(int fd)
+int		msize(t_tetri **t)
 {
-	short	ret;
+	int		cnt;
+	int		racine;
+
+	racine = 1;
+	cnt = 1;
+	while ((*t)->next)
+	{
+		if ((*t)->next)
+			*t = (*t)->next;
+		++cnt;
+	}
+	while ((*t)->prev)
+	{
+		if ((*t)->prev)
+			*t = (*t)->prev;
+	}
+	cnt *= 4;
+	while (racine * racine < cnt)
+		++racine;
+	return (racine);
+}
+
+int		check_file(int fd, t_var *v)
+{
+	int		ret;
 	char	*buff;
+	char	**map;
+	char	**lastmap;
 	t_tetri	*tetri;
-	t_tetri	*tmp;
 
 	buff = ft_strnew(546);
 	tetri = NULL;
@@ -79,13 +104,11 @@ short	check_file(int fd)
 	if (check_format(buff, ret) == -1)
 		return (-1);
 	tetri = lstfill(buff, &tetri);
-	fillit(tetri);
-	free(buff);
-	while (tetri)
-	{
-		tmp = tetri->next;
-		free(tetri);
-		tetri = tmp;
-	}
+	map = (char **)malloc(sizeof(char *) * (msize(&tetri) + 1));
+	map[msize(&tetri)] = NULL;
+	while ((*v).j < msize(&tetri))
+		map[(*v).j++] = ft_strndup(".............", msize(&tetri));
+	lastmap = fillit(tetri, v, map);
+	fillitfree(buff, tetri, lastmap);
 	return (0);
 }
