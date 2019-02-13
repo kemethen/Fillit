@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 18:26:02 by kemethen          #+#    #+#             */
-/*   Updated: 2019/02/12 18:22:30 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/02/13 11:13:49 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int		main(int ac, char **av)
 	if (!(v = (t_var *)malloc(sizeof(t_var))))
 		return (-1);
 	ft_bzero(v, sizeof(t_var));
+	(*v).ltr = 'A';
 	fd = open(av[1], O_RDONLY);
 	if (check_file(fd, v) == -1)
 	{

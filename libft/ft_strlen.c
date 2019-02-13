@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 18:26:17 by kemethen          #+#    #+#             */
-/*   Updated: 2018/11/19 19:41:32 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/02/13 14:01:42 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 size_t	ft_strlen(const char *str)
 {
-	int		i;
+	size_t	i;
 
 	i = 0;
 	while (str[i] != '\0')
-		i++;
+		++i;
 	return (i);
 }

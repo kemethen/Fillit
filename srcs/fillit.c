@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/23 15:31:13 by kemethen          #+#    #+#             */
-/*   Updated: 2019/02/12 19:48:13 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/02/13 13:51:40 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	**recreatemap(char **map)
 	while (map[j] != NULL)
 	{
 		free(map[j]);
-		j++;
+		++j;
 	}
 	k = j + 1;
 	free(map);
@@ -32,7 +32,7 @@ char	**recreatemap(char **map)
 	while (j < k)
 	{
 		map[j] = ft_strndup("........................", k);
-		j++;
+		++j;
 	}
 	return (map);
 }
@@ -63,50 +63,65 @@ void	recoord(t_tetri *t, int x, int y, char sign)
 	}
 }
 
+void	changecoord(t_var *v, char sign, t_tetri **t)
+{
+	if (sign == 'A')
+	{
+		++v->j;
+		v->x = 0;
+		v->y = 0;
+	}
+	if (sign == 'B')
+	{
+		tocorner(*t);
+		*t = (*t)->prev;
+		--v->ltr;
+		v->x = offset_x(*t);
+		v->y = offset_y(*t);
+	}
+	if (sign == 'C')
+	{
+		recoord(*t, v->x, v->y, '-');
+		++v->x;
+	}
+	if (sign == 'D')
+	{
+		v->x = 0;
+		++v->y;
+	}
+}
+
+void	changecoord2(t_var *v, t_tetri *t)
+{
+	++v->ltr;
+	recoord(t, v->x, v->y, '+');
+	v->x = 0;
+	v->y = 0;
+}
+
 char	**fillit(t_tetri *t, t_var *v, char **map)
 {
-	(*v).ltr = 'A';
 	while (t != NULL)
 	{
 		if (lastline(t, v))
 		{
 			if (last_tetri_offmap(v, t))
-			{
-				map = recreatemap(map);
-				++(*v).j;
-				(*v).x = 0;
-				(*v).y = 0;
-			}
+				map = remake(map, v, &t);
 			else if (tetri_offmap(v, t))
 			{
-				tocorner(t);
-				t = t->prev;
-				--(*v).ltr;
-				(*v).x = offset_x(t);
-				(*v).y = offset_y(t);
+				changecoord(v, 'B', &t);
 				map = setpoint(map, t);
-				recoord(t, (*v).x, (*v).y, '-');
-				++(*v).x;
+				changecoord(v, 'C', &t);
 			}
 			else
-				++(*v).x;
+				++v->x;
 		}
 		else if (last_column(v, t))
-		{
-			(*v).x = 0;
-			++(*v).y;
-		}
+			changecoord(v, 'D', &t);
 		else if (placeable(v, t, map))
-		{
-			map = setletter(map, t, (*v).ltr, *v);
-			++(*v).ltr;
-			recoord(t, (*v).x, (*v).y, '+');
-			(*v).x = 0;
-			(*v).y = 0;
-			t = t->next;
-		}
+			map = placetetri(map, &t, v);
 		else
-			++(*v).x;
+			++v->x;
 	}
 	return (map);
 }

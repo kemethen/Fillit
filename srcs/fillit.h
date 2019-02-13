@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/03 15:49:28 by kemethen          #+#    #+#             */
-/*   Updated: 2019/02/12 18:21:36 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/02/13 12:31:48 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@ void			tocorner(t_tetri *t);
 char			**fillit(t_tetri *tetri, t_var *v, char **map);
 int				offset_x(t_tetri *t);
 int				offset_y(t_tetri *t);
+void			changecoord(t_var *v, char sign, t_tetri **t);
+void			changecoord2(t_var *v, t_tetri *t);
+char			**remake(char **map, t_var *v, t_tetri **t);
 char			**recreatemap(char **map);
 void			recoord(t_tetri *t, int x, int y, char sign);
 int				lastline(t_tetri *t, t_var *v);
@@ -52,8 +55,9 @@ int				tetri_offmap(t_var *v, t_tetri *t);
 int				last_tetri_offmap(t_var *v, t_tetri *t);
 int				last_column(t_var *v, t_tetri *t);
 int				placeable(t_var *v, t_tetri *t, char **map);
+char			**placetetri(char **map, t_tetri **t, t_var *v);
 char			**setpoint(char **map, t_tetri *t);
-char			**setletter(char **map, t_tetri *t, char letter, t_var v);
-void			fillitfree(char *buff, t_tetri *tetri, char **map);
+char			**setletter(char **map, t_tetri *t, char letter, t_var *v);
+void			fillitfree(char *buff, t_tetri *tetri, char **map, t_var *v);
 
 #endif

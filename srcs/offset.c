@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 23:04:30 by kemethen          #+#    #+#             */
-/*   Updated: 2019/02/12 16:16:09 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/02/13 12:30:07 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,19 @@ int		offset_y(t_tetri *t)
 	tmp = tab[0];
 	free(tab);
 	return (tmp);
+}
+
+char	**remake(char **map, t_var *v, t_tetri **t)
+{
+	map = recreatemap(map);
+	changecoord(v, 'A', t);
+	return (map);
+}
+
+char	**placetetri(char **map, t_tetri **t, t_var *v)
+{
+	map = setletter(map, *t, v->ltr, v);
+	changecoord2(v, *t);
+	*t = (*t)->next;
+	return (map);
 }

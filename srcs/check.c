@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 18:25:59 by kemethen          #+#    #+#             */
-/*   Updated: 2019/02/12 18:23:29 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/02/13 12:53:17 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int		msize(t_tetri **t)
 	int		cnt;
 	int		racine;
 
-	racine = 1;
+	racine = 2;
 	cnt = 1;
 	while ((*t)->next)
 	{
@@ -106,9 +106,9 @@ int		check_file(int fd, t_var *v)
 	tetri = lstfill(buff, &tetri);
 	map = (char **)malloc(sizeof(char *) * (msize(&tetri) + 1));
 	map[msize(&tetri)] = NULL;
-	while ((*v).j < msize(&tetri))
-		map[(*v).j++] = ft_strndup(".............", msize(&tetri));
+	while (v->j < msize(&tetri))
+		map[v->j++] = ft_strndup(".............", msize(&tetri));
 	lastmap = fillit(tetri, v, map);
-	fillitfree(buff, tetri, lastmap);
+	fillitfree(buff, tetri, lastmap, v);
 	return (0);
 }

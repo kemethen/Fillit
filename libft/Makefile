@@ -6,7 +6,7 @@
 #    By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/11 12:07:01 by kemethen          #+#    #+#              #
-#    Updated: 2019/02/08 18:08:02 by kemethen         ###   ########.fr        #
+#    Updated: 2019/02/13 12:46:09 by kemethen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,6 @@ SRC =	ft_bzero.c \
 	ft_strlen.c \
 	ft_strnew.c \
 	ft_putchar.c \
-	ft_putstr_fd.c \
 	ft_putstr.c \
 	ft_displaytab.c \
 	ft_strncpy.c \

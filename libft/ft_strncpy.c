@@ -6,7 +6,7 @@
 /*   By: kemethen <kemethen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 19:08:18 by kemethen          #+#    #+#             */
-/*   Updated: 2019/02/08 17:58:36 by kemethen         ###   ########.fr       */
+/*   Updated: 2019/02/13 12:48:12 by kemethen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ char	*ft_strncpy(char *dest, const char *src, size_t len)
 	while (src[i] != '\0' && i < len)
 	{
 		dest[i] = src[i];
-		i++;
+		++i;
 	}
 	while (i < len)
 	{
 		dest[i] = '\0';
-		i++;
+		++i;
 	}
 	return (dest);
 }
